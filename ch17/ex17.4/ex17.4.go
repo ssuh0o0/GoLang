@@ -10,53 +10,52 @@ import (
 )
 
 const (
-	Balance       = 1000
-	EarnPoint     = 500
-	LosePoint     = 100
-	VictoryPoint  = 5000
-	GameoverPoint = 0
+	Money      = 1000
+	plusMoney  = 500
+	minusMoney = 100
+	min        = 0
+	max        = 5000
 )
 
 var stdin = bufio.NewReader(os.Stdin)
 
 func InputIntValue() (int, error) {
 	var n int
-	_, err := fmt.Scanln(&n) // ❶ int 타입값을 입력받습니다.
+	_, err := fmt.Scanln(&n)
 	if err != nil {
-		stdin.ReadString('\n') // ❷ 에러 발생시 입력스트림을 비웁니다.
+		stdin.ReadString('\n')
 	}
 	return n, err
 }
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
-
-	balance := Balance
-
+	money := Money
 	for {
-		fmt.Print("1~5사이의 값을 입력하세요:")
+
+		fmt.Printf("1-5 사이의 숫자를 입력하세요 : ")
 		n, err := InputIntValue()
-		if err != nil {
-			fmt.Println("숫자만 입력하세요.")
-		} else if n < 1 || n > 5 {
-			fmt.Println("1~5사이의 값만 입력하세요.")
+
+		rand.Seed(time.Now().UnixNano())
+		r := rand.Intn(5) + 1
+
+		if n < 1 || n > 5 || err != nil {
+			fmt.Println(" 숫자를 다시 입력하세요 ")
 		} else {
-			r := rand.Intn(5) + 1
 			if n == r {
-				balance += EarnPoint
-				fmt.Println("축하합니다. 맞추셨습니다. 남은 돈:", balance)
-				if balance >= VictoryPoint {
-					fmt.Println("게임 승리")
-					break
-				}
+				money += plusMoney
+				fmt.Println(" 축하합니다~~ 잔액은 : %d", money)
 			} else {
-				balance -= LosePoint
-				fmt.Println("꽝 아쉽지만 다음 기회를.. 남은 돈:", balance)
-				if balance <= GameoverPoint {
-					fmt.Println("게임 오버")
-					break
-				}
+				money -= minusMoney
+				fmt.Println(" 아쉬워요.. 잔액은 : %d", money)
+			}
+			if 5000 < money {
+				fmt.Println(" 게임을 승리하셨습니다. ")
+				break
+			} else if 0 > money {
+				fmt.Println(" 돈이 0원이 되어 게임을 종료합니다. ")
+				break
 			}
 		}
 	}
+
 }
