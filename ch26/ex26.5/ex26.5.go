@@ -47,8 +47,8 @@ func main() {
 }
 
 func GetFileList(pattern string) ([]string, error) {
-	filelist := []string{}
-	err := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
+	filelist = []string{}
+	err = filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
 		if !info.IsDir() {
 			matched, _ := filepath.Match(pattern, info.Name())
 			if matched {
