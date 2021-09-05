@@ -6,10 +6,10 @@ import (
 	"net/http"
 )
 
-func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello World") // ❶ 웹 핸들러 등록
+func main(){
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
+		fmt.Fprint(w, "hello world")
 	})
 
-	http.ListenAndServe(":3000", nil) // ❷ 웹 서버 시작
+	http.ListenAndServe(":3000", nil)
 }
