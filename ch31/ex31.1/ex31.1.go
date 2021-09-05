@@ -16,7 +16,7 @@ import (
 var rd *render.Render
 
 type Todo struct { // ❶ 할 일 정보를 담는 Todo 구조체
-	ID        int    `json:"id,omitempty"` // ❷ json 포맷으로 변환 옵션
+	ID        int    `json:"id,omitempty"` // json으로 변경 시 항목이름이 ID가 아닌 id로 바뀌고 생략가능하다.
 	Name      string `json:"name"`
 	Completed bool   `json:"completed,omitempty"`
 }
