@@ -7,13 +7,13 @@ import (
 )
 
 func main() {
-	mux := http.NewServeMux() // ❶ ServeMux 인스턴스 생성
+	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello World") // ❷ 인스턴스에 핸들러 등록
+		fmt.Fprint(w, "hello world")
 	})
 	mux.HandleFunc("/bar", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello Bar")
+		fmt.Fprint(w, "hello Bar")
 	})
 
-	http.ListenAndServe(":3000", mux) // ❸ mux 인스턴스 사용
+	http.ListenAndServe(":3000", nil)
 }
