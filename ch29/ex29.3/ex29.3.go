@@ -1,4 +1,3 @@
-//ch29/ex29.3/ex29.3.go
 package main
 
 import (
@@ -9,11 +8,11 @@ import (
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "hello world")
+		fmt.Fprint(w, "Hello World")
 	})
 	mux.HandleFunc("/bar", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "hello Bar")
+		fmt.Fprint(w, "Hello Bar")
 	})
 
-	http.ListenAndServe(":3000", nil)
+	http.ListenAndServe(":3000", mux)
 }
