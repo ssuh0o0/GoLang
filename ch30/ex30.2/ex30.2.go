@@ -17,16 +17,15 @@ type Student struct {
 	Score int
 }
 
-var students map[int]Student // ❶ 학생 목록을 저장하는 맵
-var lastId int
+var students map[int]Student //학생 목록을 저장하는 맵
 
 func MakeWebHandler() http.Handler {
-	mux := mux.NewRouter() // ❷ gorilla/mux를 만듭니다.
+	mux := mux.NewRouter() //  gorilla/mux를 만듭니다.
 	mux.HandleFunc("/students", GetStudentListHandler).Methods("GET")
-	//-- ❸ 여기에 새로운 핸들러 등록 --//
+	//-- 여기에 새로운 핸들러 등록 --//
 	mux.HandleFunc("/students/{id:[0-9]+}", GetStudentHandler).Methods("GET")
 
-	students = make(map[int]Student) // ❹ 임시 데이터 생성
+	students = make(map[int]Student) //  임시 데이터 생성
 	students[1] = Student{1, "aaa", 16, 87}
 	students[2] = Student{2, "bbb", 18, 98}
 	lastId = 2
@@ -46,7 +45,7 @@ func (s Students) Less(i, j int) bool {
 }
 
 func GetStudentListHandler(w http.ResponseWriter, r *http.Request) {
-	list := make(Students, 0) // ➎ 학생 목록을 Id로 정렬
+	list := make(Students, 0)
 	for _, student := range students {
 		list = append(list, student)
 	}
@@ -54,7 +53,7 @@ func GetStudentListHandler(w http.ResponseWriter, r *http.Request) {
 	sort.Sort(list)
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(list) // ➏ JSON 포맷으로 변경
+	json.NewEncoder(w).Encode(list)
 }
 
 func GetStudentHandler(w http.ResponseWriter, r *http.Request) {

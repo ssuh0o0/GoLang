@@ -28,7 +28,7 @@ func TestBarHandler(t *testing.T) {
 	assert := assert.New(t)
 
 	res := httptest.NewRecorder()
-	req := httptest.NewRequest("GET", "/bar", nil) // ➎ /bar 경로 테스트
+	req := httptest.NewRequest("GET", "/bar", nil) // bar 경로 테스트
 
 	mux := MakeWebHandler()
 	mux.ServeHTTP(res, req)
