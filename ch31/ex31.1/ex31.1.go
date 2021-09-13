@@ -15,7 +15,7 @@ import (
 
 var rd *render.Render
 
-type Todo struct { // ❶ 할 일 정보를 담는 Todo 구조체
+type Todo struct { //  할 일 정보를 담는 Todo 구조체
 	ID        int    `json:"id,omitempty"` // json으로 변경 시 항목이름이 ID가 아닌 id로 바뀌고 생략가능하다.
 	Name      string `json:"name"`
 	Completed bool   `json:"completed,omitempty"`
@@ -24,7 +24,7 @@ type Todo struct { // ❶ 할 일 정보를 담는 Todo 구조체
 var todoMap map[int]Todo
 var lastID int = 0
 
-func MakeWebHandler() http.Handler { // ❸ 웹 서버 핸들러 생성
+func MakeWebHandler() http.Handler { //  웹 서버 핸들러 생성
 	rd = render.New()
 	todoMap = make(map[int]Todo)
 	mux := mux.NewRouter()
@@ -36,7 +36,7 @@ func MakeWebHandler() http.Handler { // ❸ 웹 서버 핸들러 생성
 	return mux
 }
 
-type Todos []Todo // ❹ ID로 정렬하는 인터페이스
+type Todos []Todo //  ID로 정렬하는 인터페이스
 
 func (t Todos) Len() int {
 	return len(t)
@@ -56,7 +56,7 @@ func GetTodoListHandler(w http.ResponseWriter, r *http.Request) {
 		list = append(list, todo)
 	}
 	sort.Sort(list)
-	rd.JSON(w, http.StatusOK, list) // ➎ ID로 정렬하여 전체 목록 반환
+	rd.JSON(w, http.StatusOK, list) //  ID로 정렬하여 전체 목록 반환
 }
 
 func PostTodoHandler(w http.ResponseWriter, r *http.Request) {
@@ -67,7 +67,7 @@ func PostTodoHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	lastID++ // ➏ 새로운 ID로 등록하고 만든 Todo 반환
+	lastID++ //  새로운 ID로 등록하고 만든 Todo 반환
 	todo.ID = lastID
 	todoMap[lastID] = todo
 	rd.JSON(w, http.StatusCreated, todo)
@@ -78,7 +78,7 @@ type Success struct {
 }
 
 func RemoveTodoHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r) // ➐ ID에 해당하는 할 일 삭제
+	vars := mux.Vars(r) // ID에 해당하는 할 일 삭제
 	id, _ := strconv.Atoi(vars["id"])
 	if _, ok := todoMap[id]; ok {
 		delete(todoMap, id)
@@ -89,14 +89,13 @@ func RemoveTodoHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateTodoHandler(w http.ResponseWriter, r *http.Request) {
-	var newTodo Todo // ➑ ID에 해당하는 할 일 수정
+	var newTodo Todo //  ID에 해당하는 할 일 수정
 	err := json.NewDecoder(r.Body).Decode(&newTodo)
 	if err != nil {
 		log.Fatal(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
 	if todo, ok := todoMap[id]; ok {
@@ -110,9 +109,8 @@ func UpdateTodoHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	m := MakeWebHandler()
-	n := negroni.Classic() // ➒ negroni 기본 핸들러로 감싼다
+	n := negroni.Classic() //  negroni 기본 핸들러로 감싼다
 	n.UseHandler(m)
-
 	log.Println("Started App")
 	err := http.ListenAndServe(":3000", n)
 	if err != nil {

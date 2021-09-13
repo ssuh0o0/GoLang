@@ -18,6 +18,7 @@ type Student struct {
 }
 
 var students map[int]Student //학생 목록을 저장하는 맵
+var lastId int
 
 func MakeWebHandler() http.Handler {
 	mux := mux.NewRouter() //  gorilla/mux를 만듭니다.
